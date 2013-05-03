@@ -6,32 +6,78 @@ package jfk;
 import jfk.Compiler;
 }
 
+
 //blocks are divided by any number of ;
 //any number of ; are also allowed at the beginning
 //and at the end of a block
-program : (';')* program_block*;
+program returns [Compiler.Program val] :
+    { $val = new Compiler.Program(); }
+    (';')*
+    (
+        (statement ';'+) { $val.statements.add($statement.val); } |
+        (function ';'*) { $val.functions.add($function.val); }
+    )*;
 
-program_block : (statement ';'+) | (function ';'*);
+body returns [Compiler.Body val] :
+    '{'
+    ((';')* a = statement { $val = new Compiler.Body(); $val.add($a.val); }
+        ((';')+ b = statement { $val.add($b.val); })*
+    (';')+)?
+    '}'
+;
 
-body : '{' ((';')* statement ((';') + statement)* (';')+)? '}';
-function : 'def' ID '(' (ID (',' ID)*)? ')' body;
+function returns [Compiler.Function val] :
+    'def' name = ID { $val = new Compiler.Function($name.text); }
+    '('
+        (arg1 = ID  { $val.addArg($arg1.text); }
+        (',' arg2 = ID { $val.addArg($arg2.text); })*)?
+    ')'
+    body { $val.setBody($body.val); }
+;
 
-statement : invocation | expression | variable_definition;
+statement returns [Compiler.Statement val] :
+    a = invocation {$val = new Compiler.StatementExpression($a.val); } |
+    b = expression {$val = new Compiler.StatementExpression($b.val); } |
+    c = variable_definition { $val = $c.val; }
+;
 
-invocation : ID '(' (expression (',' expression)*)? ')'
-{System.out.println("inv: " + $ID.text); };
+invocation returns [Compiler.Invocation val] :
+    a = ID '(' { $val = new Compiler.Invocation($a.text); }
+        (e1 = expression { $val.addParam($e1.val); }
+        (',' e2 = expression { $val.addParam($e2.val); })*)?
+    ')'
+;
+expression returns [Compiler.Expression val] :
+    a = INT { $val = new Compiler.IntExpression($a.text); } |
+    a = ID { $val = new Compiler.Reference($a.text); } |
+    b = ar_expression { $val = $b.val; } |
+    c = invocation { $val = $c.val; } |
+    d = assignment { $val = $d.val; }
+;
 
-expression : INT | ID | ar_expression | assignment;
+ar_expression returns [Compiler.ArExpression val] :
+    a = mult_expression { $val = new Compiler.ArExpression($a.val); }
+    (('+' | '-') b = mult_expression { $val.add($b.val); })*
+;
 
-ar_expression : mult_expression (('+' | '-') mult_expression)*;
-mult_expression : expression_atom (('*' | '/') expression_atom)*;
+mult_expression returns [Compiler.ArExpression val] :
+    a = expression_atom { $val = new Compiler.ArExpression($a.val); }
+    (('*' | '/') b = expression_atom { $val.add($b.val); })*
+;
 
-expression_atom : INT | ID | '(' expression ')';
+expression_atom returns [Compiler.Expression val] :
+    a = INT { $val = new Compiler.IntExpression($a.text); } |
+    a = ID { $val = new Compiler.Reference($a.text); } |
+    '(' expression ')' { $val = $expression.val; }
+;
 
-assignment : ID '=' expression;
+assignment returns [Compiler.Assignment val] :
+    to = ID '=' what = expression { $val = new Compiler.Assignment($to.text, $what.val); }
+;
 
 variable_definition returns [Compiler.VariableDefinition val] :
-    'var' name = ID { $val = new Compiler.VariableDefinition($name.text); };
+    'var' name = ID { $val = new Compiler.VariableDefinition($name.text); }
+;
 
 type : ('int' | 'float') ;
 INT : '0'..'9'+ ;

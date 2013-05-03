@@ -1,1 +1,8 @@
 var a;
+a = 10 + 20;
+def func(a,b,c) {
+    a = 20;
+}
+
+var b;
+b = func(10,func(),b);

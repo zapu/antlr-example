@@ -43,9 +43,6 @@ public class jfkgrammarBaseListener implements jfkgrammarListener {
 	@Override public void enterExpression_atom(jfkgrammarParser.Expression_atomContext ctx) { }
 	@Override public void exitExpression_atom(jfkgrammarParser.Expression_atomContext ctx) { }
 
-	@Override public void enterProgram_block(jfkgrammarParser.Program_blockContext ctx) { }
-	@Override public void exitProgram_block(jfkgrammarParser.Program_blockContext ctx) { }
-
 	@Override public void enterFunction(jfkgrammarParser.FunctionContext ctx) { }
 	@Override public void exitFunction(jfkgrammarParser.FunctionContext ctx) { }
 

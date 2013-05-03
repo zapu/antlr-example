@@ -40,9 +40,6 @@ public interface jfkgrammarListener extends ParseTreeListener {
 	void enterExpression_atom(jfkgrammarParser.Expression_atomContext ctx);
 	void exitExpression_atom(jfkgrammarParser.Expression_atomContext ctx);
 
-	void enterProgram_block(jfkgrammarParser.Program_blockContext ctx);
-	void exitProgram_block(jfkgrammarParser.Program_blockContext ctx);
-
 	void enterFunction(jfkgrammarParser.FunctionContext ctx);
 	void exitFunction(jfkgrammarParser.FunctionContext ctx);
 }
