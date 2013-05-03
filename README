@@ -1,6 +1,6 @@
 Przykładowy kompilator na ANTLR4. Nie produkuje nic użytecznego - jest na etapie zamieniania kodu na obiekty opisujące ten kod.
 
-Gramatyka wraz z akcjami semantycznymi znajduje się w src/jfkgrammar.g4. Można ją skompilować za pomocą:
+Gramatyka wraz z akcjami semantycznymi znajduje się w src/jfk/jfkgrammar.g4. Można ją skompilować za pomocą:
 
 	java -jar antlr-4.0-complete.jar jfkgrammar.g4
 
