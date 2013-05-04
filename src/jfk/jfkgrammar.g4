@@ -79,6 +79,12 @@ variable_definition returns [Compiler.VariableDefinition val] :
     'var' name = ID { $val = new Compiler.VariableDefinition($name.text); }
 ;
 
+COMMENT
+    :   ( '//' ~[\r\n]* '\r'? '\n'
+        | '/*' .*? '*/'
+        ) -> skip
+    ;
+
 type : ('int' | 'float') ;
 INT : '0'..'9'+ ;
 ID  : 'a'..'z'+ ;
