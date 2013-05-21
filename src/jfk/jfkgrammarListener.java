@@ -1,4 +1,4 @@
-// Generated from jfkgrammar.g4 by ANTLR 4.0
+// Generated from src\jfk\jfkgrammar.g4 by ANTLR 4.0
 
 package jfk;
 import jfk.Compiler;
@@ -16,6 +16,6 @@ public interface jfkgrammarListener extends ParseTreeListener {
 	void enterProgram(jfkgrammarParser.ProgramContext ctx);
 	void exitProgram(jfkgrammarParser.ProgramContext ctx);
 
-	void enterType(jfkgrammarParser.TypeContext ctx);
-	void exitType(jfkgrammarParser.TypeContext ctx);
+	void enterInvocation(jfkgrammarParser.InvocationContext ctx);
+	void exitInvocation(jfkgrammarParser.InvocationContext ctx);
 }

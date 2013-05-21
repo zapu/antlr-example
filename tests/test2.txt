@@ -2,5 +2,5 @@ test
 
 ###SOURCE
 var a;
-a = 10 + 2;
+ret 1;
 ###EXPECTED

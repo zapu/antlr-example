@@ -6,14 +6,24 @@ import jfk.Compiler;
 }
 
 program returns [Compiler.Program ret] :
-    { $ret =new Compiler.Program(); }
+    { $ret = new Compiler.Program(); }
     (s = statement { $ret.add($s.ret); } ';')*
     ;
 
 statement returns [Compiler.Statement ret] :
     'var' ID { $ret = new Compiler.VariableDeclaration($ID.text); } |
     a = ID '=' e = expression { $ret = new Compiler.Assignment($a.text, $e.ret); } |
-    'ret' e = expression { $ret = new Compiler.Return($e.ret); }
+    'ret' e = expression { $ret = new Compiler.Return($e.ret); } |
+    invocation { $ret = $invocation.ret; }
+    ;
+
+invocation returns [Compiler.Invocation ret] :
+    ID { $ret = new Compiler.Invocation($ID.text); }
+    '('
+        (a = expression { $ret.add($a.ret); }
+            (',' a = expression { $ret.add($a.ret); } )*
+        )?
+    ')'
     ;
 
 expression returns [Compiler.Expression ret] :
@@ -28,7 +38,6 @@ COMMENT
         ) -> skip
     ;
 
-type : ('int' | 'float') ;
 INT : '0'..'9'+ ;
 ID  : 'a'..'z'+ ;
 WS : (' '|'\r'|'\n') -> skip;

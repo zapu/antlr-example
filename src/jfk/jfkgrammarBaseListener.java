@@ -1,4 +1,4 @@
-// Generated from jfkgrammar.g4 by ANTLR 4.0
+// Generated from src\jfk\jfkgrammar.g4 by ANTLR 4.0
 
 package jfk;
 import jfk.Compiler;
@@ -19,8 +19,8 @@ public class jfkgrammarBaseListener implements jfkgrammarListener {
 	@Override public void enterProgram(jfkgrammarParser.ProgramContext ctx) { }
 	@Override public void exitProgram(jfkgrammarParser.ProgramContext ctx) { }
 
-	@Override public void enterType(jfkgrammarParser.TypeContext ctx) { }
-	@Override public void exitType(jfkgrammarParser.TypeContext ctx) { }
+	@Override public void enterInvocation(jfkgrammarParser.InvocationContext ctx) { }
+	@Override public void exitInvocation(jfkgrammarParser.InvocationContext ctx) { }
 
 	@Override public void enterEveryRule(ParserRuleContext ctx) { }
 	@Override public void exitEveryRule(ParserRuleContext ctx) { }

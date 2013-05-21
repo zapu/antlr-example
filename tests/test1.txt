@@ -1,7 +1,7 @@
-test
-
+test 1
 ###SOURCE
-var a;
-a = 10;
-ret a;
+print(10,5);
+ret 1;
 ###EXPECTED
+10
+5

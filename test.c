@@ -1,26 +1,9 @@
-//#include <stdio.h>
-
-
+#include <stdio.h>
 
 int main() {
 	int a;
-	a = 10 + 0;
-	return a;
+	int b = 10;
+	a = b;
+	printf("%d\n", a);
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-// clang -S -emit-llvm test.c
-// llc test.s
-// ld -lmsvcrt test.s.s
-// newline = 0x0A
