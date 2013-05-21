@@ -4,3 +4,5 @@ out/
 *.exe
 *.o
 *.out
+tests/tmp
+tests/tmp.*

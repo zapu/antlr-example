@@ -1,0 +1,7 @@
+test
+
+###SOURCE
+var a;
+a = 10;
+ret a;
+###EXPECTED

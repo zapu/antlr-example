@@ -3,6 +3,7 @@ package jfk;
 import org.antlr.v4.runtime.*;
 
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,7 +43,7 @@ public class Compiler {
 
         @Override
         public void emit(FunctionBlock block) {
-
+            block.emit("ret i32 0");
         }
     }
 
@@ -88,7 +89,7 @@ public class Compiler {
         @Override
         public int emit(FunctionBlock block) {
             int reg = block.getRegister();
-            block.emit("%" + reg + " = add i32 0, i32 " + val);
+            block.emit("%" + reg + " = add i32 0, " + val);
             return reg;
         }
     }
@@ -107,16 +108,30 @@ public class Compiler {
     }
 
     public static void main(String[] args) {
-        //jfkgrammarLexer lexer = new jfkgrammarLexer(new org.antlr.v4.runtime.ANTLRInputStream("var a; def test() { var d; }"));
+        if(args.length == 0) {
+            System.out.println("Usage: java -jar jfk2013.jar INPUT_FILE [OUTPUT_FILE]");
+            System.out.println("Defaulting to: test.txt");
+            args = new String[] { "test.txt" };
+        }
+
+
         try {
-            jfkgrammarLexer lexer = new jfkgrammarLexer(new org.antlr.v4.runtime.ANTLRInputStream(new FileReader("test.txt")));
+            jfkgrammarLexer lexer = new jfkgrammarLexer(new org.antlr.v4.runtime.ANTLRInputStream(new FileReader(args[0])));
             CommonTokenStream tokens = new CommonTokenStream(lexer);
             jfkgrammarParser parser = new jfkgrammarParser(tokens);
             Program prog = parser.program().ret;
             String str = prog.emit();
-            System.out.println(str);
+            String outputFilename = args[0] + ".ll";
+            if(args.length > 1) {
+                outputFilename = args[1];
+            }
+            FileWriter writer = new FileWriter(outputFilename);
+            writer.write(str);
+            writer.close();
+            System.exit(0);
         } catch (Exception e) {
             System.out.println(e);
+            System.exit(1);
         }
     }
 }
